@@ -74,17 +74,29 @@ posts.forEach((singlePost) => {
 
 });
 const allLike = document.querySelectorAll('.js-like-button');
+
 allLike.forEach((likeElement) => {
     likeElement.addEventListener('click', function(){
 
-        const postId = this.dataset.postid
+        const postId = this.dataset.postid;
 
-        const postLikeButton = document.querySelector('.js-like-button' + postId)
-        postLikeButton.classList.add('liked');
+        const likeCounter = document.querySelector(`#like-counter-${postId}`);
 
+        let currentLikes = parseInt(likeCounter.innerText);
+        // BONUS 3 
+        if (this.classList.contains('liked')) {
+            currentLikes--;
+            this.classList.remove('liked');
+        // BONUS 3
+        } else {
+            currentLikes++;
+            this.classList.add('liked');
+        }
 
-    })
-})
+        likeCounter.innerText = currentLikes;
+
+    });
+});
 
 // FUNCTIONS 
 // funzione che genera un singolo post  
@@ -116,7 +128,7 @@ function generateSinglePost(postInfo) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button js-like-button" href="#" data-postid="${id}">
+                        <a class="like-button js-like-button" id="js-like-button-${id}" href="#" data-postid="${id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
@@ -131,15 +143,3 @@ function generateSinglePost(postInfo) {
 
     return postTemplate;
 }
-
-// function getProfileImage(image){
-//     let imageString;
-
-//     if(image) {
-//         imageString = `<img class="profile-pic" src="${author.image}" alt="${author.name}">`;
-//     } else {
-//         imageString = `<span>LC</span>`;
-
-//         return imageString;
-//     }
-// }
